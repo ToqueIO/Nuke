@@ -45,9 +45,10 @@ class _Processor(QtCore.QObject):
                          determine the update that is being triggered
         """
         processType = data.get('type', self.update)
+        forceUpdate = data.get('forceUpdate', False)
         if processType == self.update:
             self._data = data
-            self._update()
+            self._update(forceUpdate=forceUpdate)
         elif processType == self.action:
             self._data.update(data)
             self._runAction()

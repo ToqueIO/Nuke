@@ -200,7 +200,7 @@ class NodeTagManager(QtGui.BaseWidget):
                 parentLayout.setContentsMargins(0, 0, 0, 0)
             parentWidget = parentWidget.parentWidget()
 
-    def updateData(self, *args):
+    def updateData(self, *args, **kwargs):
         """
         Triggered when any of the tag search options are changed and will re-evaluate and re-process
         the tags.  This will send out a signal to the processor thread to collect the new updated
@@ -209,8 +209,10 @@ class NodeTagManager(QtGui.BaseWidget):
             *args: Unused in place to avoid errors when it gets called from signals
         """
 
+        forceUpdate = kwargs.get('forceUpdate', False)
         self.data = {'selection': self.selectionDrop.currentIndex(),
-                     'type': self.processor.update}
+                     'type': self.processor.update,
+                     'forceUpdate': forceUpdate}
 
         if self.selectionDrop.currentIndex() == Globals.tagSearchIndex:
             self.data['tags'] = self.tagSearchLine.values
@@ -380,9 +382,10 @@ class NodeTagManager(QtGui.BaseWidget):
         elif action in [self.processor.actionDelete]:
             self.tagItemList.clear()
             self.items = list()
-            self.updateData()
+            self.updateData(forceUpdate=True)
         else:
-            self.updateData()
+            self.tagItemList.clear()
+            self.updateData(forceUpdate=True)
 
     @QtCore.Slot()
     def advancedOptionsActivated(self):
