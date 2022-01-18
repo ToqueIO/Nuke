@@ -183,7 +183,12 @@ class NodeTagManager(QtGui.BaseWidget):
         self.clearTagsButton.pressed.connect(lambda: self.processAction(self.processor.actionClear))
 
         self.mouseFilter.mouseState.connect(self.updateData)
+        self.registerCallbacks()
 
+    def registerCallbacks(self):
+        """
+        Register callbacks so interactions in the node graph will connect with the manager
+        """
         app = QtGui.QApplication.instance()
         app.installEventFilter(self.mouseFilter)
         nuke.addOnDestroy(self.menuActionDelete)
