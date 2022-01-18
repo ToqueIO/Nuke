@@ -1,4 +1,6 @@
 import os
+import re
+
 import nuke
 import nukescripts
 
@@ -62,7 +64,7 @@ class NodeTagManager(QtGui.BaseWidget):
         self.tagItemList = QtGui.CustomListWidget()
 
         self.progressBar = QtGui.QProgressBar()
-        self.progressInfo = QtGui.QLabel()
+        self.progressInfo = QtGui.QLabel(nodeTag.__version__.upper())
 
         self.processor = nodeTag.interface.processor.Processor()
         self.mouseFilter = nodeTag.interface.processor.MouseEventFilter()
@@ -128,14 +130,13 @@ class NodeTagManager(QtGui.BaseWidget):
         self.setterControlWidget.setFixedHeight(100)
         self.progressInfo.setFixedWidth(200)
 
-        tagSeparators = self.tagSearchLine.separators.pattern.replace('[', '').replace(']', '')
-        self.tagSearchLine.setRegEx(Globals.baseTagSearchRegEx.format(''.join(tagSeparators)))
         self.tagSearchLine.setPlaceholderText('Search tags here')
         self.tagSearchLine.ignoreExisting = True
         self.tagSearchLine.separators = [' ', ',', '|']
 
         self.tagSetterLine.setPlaceholderText('Set tags here')
         self.tagSetterLine.separators = [' ', ',', '|']
+        self.updateSearchRegex()
 
         actions = [self.processor.actionSet,
                    self.processor.actionRemove,
@@ -182,8 +183,27 @@ class NodeTagManager(QtGui.BaseWidget):
             self.processor.actionDelete))
         self.clearTagsButton.pressed.connect(lambda: self.processAction(self.processor.actionClear))
 
+        self.useRegExCheck.stateChanged.connect(self.updateSearchRegex)
+
         self.mouseFilter.mouseState.connect(self.updateData)
         self.registerCallbacks()
+
+    def updateSearchRegex(self):
+        """
+        Update the regex filter for the search line dynamically to ensure that when re is disabled
+        it will only allow tag friendly characters
+        """
+        tagSeparators = self.tagSearchLine.separators.pattern.replace('[', '').replace(']', '')
+
+        if self.useRegExCheck.isChecked():
+            regex = Globals.reTagSearchRegEx.format(''.join(tagSeparators))
+            self.tagSearchLine.setRegEx(regex)
+        else:
+            regex = Globals.baseTagSearchRegEx.format(''.join(tagSeparators))
+            self.tagSearchLine.setRegEx(regex)
+
+        regex = regex.replace('[', '[^').replace('_-', '_\-')
+        self.tagSearchLine.setText(re.sub(regex, '', self.tagSearchLine.text()))
 
     def registerCallbacks(self):
         """
@@ -360,7 +380,7 @@ class NodeTagManager(QtGui.BaseWidget):
                 self.tagItemList.addWidget(widget)
 
             self.progressBar.setValue(total)
-            self.progressInfo.setText('')
+            self.progressInfo.setText(nodeTag.__version__.upper())
 
         for widget in self.tagItemList.widgets:
             if nuke.exists(widget.tagItem.name):

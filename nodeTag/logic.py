@@ -10,7 +10,7 @@ from nodeTag.globals import Globals
 # Version information
 __Major__ = '1'
 __Minor__ = '0'
-__BugFix__ = '0'
+__BugFix__ = '1'
 __version__ = '.'.join([__Major__, __Minor__, __BugFix__])
 
 # Creator information
@@ -280,12 +280,13 @@ def getTagMatches(node, tag, **kwargs):
         tag (str): This is the search query/tag to find matches for
 
     Kwargs:
-        caseSensitive (bool|optional): True or False if the tag check should ignore the case of the tags when checking
-                                   if a tag exists
+        caseSensitive (bool|optional): True or False if the tag check should ignore the case of the
+                                       tags when checking if a tag exists
                        default: True
-        exactMatch (bool|optional): True or False if the tag should be an exact match to the search query
+        exactMatch (bool|optional): True or False if the tag should be an exact match to the search
                    default: True
-        useRegex (bool|optional): True or False if the tag query given is a regex and should be processed using re
+        useRegex (bool|optional): True or False if the tag query given is a regex and should be
+                                  processed using re
 
     See module level docs for additional possible Kwargs
 
@@ -303,10 +304,14 @@ def getTagMatches(node, tag, **kwargs):
         tag = tag.lower()
         tags = casedTags.keys()
 
-    if ('*' in tag or useRegex) and exactMatch:
+    if '*' in tag or useRegex:
         if not useRegex:
             tag = tag.replace('*', r'\w*')
-        regexMatch = re.findall(tag, ' '.join(tags))
+        if caseSensitive:
+            regex = re.compile(tag)
+        else:
+            regex = re.compile(tag, flags=re.IGNORECASE)
+        regexMatch = re.findall(regex, ' '.join(tags))
         if regexMatch:
             matches = set([casedTags.get(match.lower()) for match in regexMatch if match in tags])
 

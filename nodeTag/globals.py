@@ -10,7 +10,8 @@ class _Globals(object):
     tagTabName = 'nodeTagTab'
     tagSeparator = '|'
     potentialSeparators = [tagSeparator, ',', ' ', '\n']
-    baseTagSearchRegEx = '[a-zA-Z0-9_-{0}]+'
+    baseTagSearchRegEx = '[a-zA-Z0-9\*{0}_-]+'
+    reTagSearchRegEx = '[\.a-zA-Z0-9\\{0}_-]+'
 
     selectedIndex = 0
     tagSearchIndex = 1
