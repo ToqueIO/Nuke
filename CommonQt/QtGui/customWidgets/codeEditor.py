@@ -5,7 +5,10 @@ import re
 import sys
 import traceback
 
-from io import StringIO
+try:
+    import StringIO
+except (ImportError, ModuleNotFoundError):
+    from io import StringIO
 
 try:
     from PySide2 import QtWidgets, QtGui, QtCore
