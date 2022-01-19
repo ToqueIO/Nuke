@@ -6,7 +6,7 @@ import sys
 import traceback
 
 try:
-    import StringIO
+    from StringIO import StringIO
 except (ImportError, ModuleNotFoundError):
     from io import StringIO
 
