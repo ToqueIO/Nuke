@@ -69,7 +69,7 @@ class CustomAction(QtGui.BaseWidget):
         """
         Set the base defaults for the widget
         """
-        self.splitter.setOrientation(QtGui.Qt.Vertical)
+        self.splitter.setOrientation(QtCore.Qt.Vertical)
         self.commandOutput.setReadOnly(True)
         self.commandEntry.defaultCode = ('\'\'\'\n'
                                          'Tag items can be referenced with the attribute items\n'

@@ -92,7 +92,7 @@ class CodeEditor(QtWidgets.QPlainTextEdit):
             number = str(blockNumber + 1)
             painter.drawText(-3, top, self.lineNumberArea.width(),
                              self.fontMetrics().height(),
-                             QtGui.Qt.AlignRight, number)
+                             QtCore.Qt.AlignRight, number)
 
             block = block.next()
             top = bottom
@@ -133,7 +133,7 @@ class CodeEditor(QtWidgets.QPlainTextEdit):
         extraSelections = []
         if not self.isReadOnly():
             selection = QtWidgets.QTextEdit.ExtraSelection()
-            lineColor = QtGui.QColor(QtGui.Qt.gray)
+            lineColor = QtGui.QColor(QtCore.Qt.gray)
             lineColor.setAlpha(50)
             selection.format.setBackground(lineColor)
             selection.format.setProperty(QtGui.QTextFormat.FullWidthSelection, True)
@@ -153,7 +153,7 @@ class CodeEditor(QtWidgets.QPlainTextEdit):
         extraSelections = []
         if not self.isReadOnly():
             selection = QtWidgets.QTextEdit.ExtraSelection()
-            lineColor = QtGui.QColor(QtGui.Qt.red)
+            lineColor = QtGui.QColor(QtCore.Qt.red)
             lineColor.setAlpha(50)
             selection.format.setBackground(lineColor)
             selection.format.setProperty(QtGui.QTextFormat.FullWidthSelection, True)
