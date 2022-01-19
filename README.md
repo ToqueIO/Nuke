@@ -21,3 +21,5 @@ import nuke
 nuke.pluginAddPath('/toqueIO/Nuke')
 ```
 
+Official Discord: https://discord.gg/UJJrcnKGRK
+
