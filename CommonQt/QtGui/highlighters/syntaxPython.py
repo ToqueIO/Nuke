@@ -1,4 +1,8 @@
-import builtins
+try:
+    import __builtin__ as builtins
+except (ImportError, ModuleNotFoundError):
+    import builtins
+    
 import keyword
 
 try:
