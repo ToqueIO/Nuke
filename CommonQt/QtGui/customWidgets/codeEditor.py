@@ -14,6 +14,7 @@ try:
     from PySide2 import QtWidgets, QtGui, QtCore
 except ImportError:
     from PySide import QtGui, QtCore
+    QtWidgets = QtGui
 
 
 class NumberBar(QtWidgets.QWidget):

@@ -67,7 +67,7 @@ class NodeTagManager(QtGui.BaseWidget):
         self.progressInfo = QtGui.QLabel(nodeTag.__version__.upper())
 
         self.processor = nodeTag.interface.processor.Processor()
-        self.mouseFilter = nodeTag.interface.processor.MouseEventFilter()
+        self.mouseFilter = QtGui.MouseEventFilter.globalInstance()
 
         self.data = dict()
         self.items = list()
@@ -185,7 +185,7 @@ class NodeTagManager(QtGui.BaseWidget):
 
         self.useRegExCheck.stateChanged.connect(self.updateSearchRegex)
 
-        self.mouseFilter.mouseState.connect(self.updateData)
+        self.mouseFilter.mouseReleased.connect(self.updateData)
         self.registerCallbacks()
 
     def updateSearchRegex(self):
@@ -209,8 +209,6 @@ class NodeTagManager(QtGui.BaseWidget):
         """
         Register callbacks so interactions in the node graph will connect with the manager
         """
-        app = QtGui.QApplication.instance()
-        app.installEventFilter(self.mouseFilter)
         nuke.addOnDestroy(self.menuActionDelete)
         nuke.addOnUserCreate(self.updateData)
 
@@ -475,7 +473,7 @@ def start():
         nuke.pluginAddPath(os.path.dirname(__file__))
         nukescripts.panels.registerWidgetAsPanel('{name}.NODE_TAG_MANAGER'.format(name=__name__),
                                                  'NodeTagManager',
-                                                 'com.nukeDr.NodeTagManager')
+                                                 'com.toqueIO.NodeTagManager')
 
     return NODE_TAG_MANAGER
 

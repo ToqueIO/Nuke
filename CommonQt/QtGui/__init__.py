@@ -11,5 +11,6 @@ from .customWidgets.labeledWidget import LabeledWidget
 from .customWidgets.customListWidget import CustomListWidget
 from .customWidgets.customMessage import CustomMessage
 from .customWidgets.codeEditor import CodeEditor
+from .customWidgets.mouseClickEmitter import MouseEventFilter
 
 from .highlighters import syntaxPython
