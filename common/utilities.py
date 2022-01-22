@@ -5,7 +5,7 @@ import threading
 
 __release__ = 'release'
 __major__ = 1
-__minor__ = 0
+__minor__ = 1
 __bugfix__ = 0
 __version__ = '{release} {major:02}.{minor:02}.{bugfix:02}'.format(release=__release__,
                                                                    major=__major__,
@@ -134,3 +134,42 @@ def delete(nodes):
         nuke.delete(node)
 
     undoStack.end()
+
+
+def getFileKnobs(node):
+    """
+    helper method to collect all the file knobs on a node
+    Args:
+        node (nuke.Node): node to collect the knobs from
+
+    Returns:
+        set: set of all the file knobs present on the node or an empty set if there are none
+    """
+    fileKnobs = set()
+    for knob in node.knobs():
+        knob = node[knob]
+        if isinstance(knob, nuke.File_Knob):
+            fileKnobs.add(knob)
+
+    return fileKnobs
+
+
+def getFilenames(node):
+    """
+    Helper method to get the filenames from a nuke node as nuke.filename doesn't always return the
+    filename if it is a user node/gizmo and only accounts for a single filename
+    Args:
+        node (nuke.Node): node to collect filenames from
+
+    Returns:
+        set: set of all the filenames on the node or an empy set if there are none
+    """
+
+    fileKnobs = getFileKnobs(node)
+
+    filenames = set()
+    for knob in fileKnobs:
+        if knob.value():
+            filenames.add(knob.value())
+
+    return filenames
