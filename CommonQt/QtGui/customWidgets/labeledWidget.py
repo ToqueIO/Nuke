@@ -61,18 +61,16 @@ class LabeledWidget(QtGui.QWidget):
         else:
             items.append(self.label)
 
-        print(items)
-
         if self.stretchPosition is not None:
             items.insert(self.__indexPositions.get(self.stretchPosition, 2), 'stretch')
 
         for item in items:
-            print(item)
             if isinstance(item, str):
                 self.masterLayout.addStretch(0)
                 continue
             self.masterLayout.addWidget(item)
 
+        self.masterLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.masterLayout)
         self.__initialized = True
 

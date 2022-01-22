@@ -44,6 +44,9 @@ class FilteredComboBox(QtWidgets.QComboBox):
             index = self.findText(str(text))
             if index >= 0:
                 self.setCurrentIndex(index)
+                return
+
+        self.setCurrentIndex(self.currentIndex())
 
     def setModel(self, model):
         """
