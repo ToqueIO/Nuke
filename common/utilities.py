@@ -1,3 +1,4 @@
+import os
 import nuke
 import logging
 import threading
@@ -173,3 +174,21 @@ def getFilenames(node):
             filenames.add(knob.value())
 
     return filenames
+
+
+def getUserDir():
+    """
+    Returns:
+        str: Path to the current users .nuke folder
+    """
+
+    userDir = os.getenv('NUKE_USER_DIR', None)
+
+    if not userDir:
+        username = os.getenv('USERNAME', '.nuke')
+        for path in nuke.pluginPath():
+            if '.nuke' in path and username in path:
+                userDir = path
+                break
+
+    return userDir
