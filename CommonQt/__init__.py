@@ -8,7 +8,6 @@ except ImportError:
 
 del globals()['QtGui']
 del globals()['QtWidgets']
-del globals()['QtCore']
 
 
 __release__ = 'release'
@@ -22,4 +21,3 @@ __version__ = '{release} {major:02}.{minor:02}.{bugfix:02}'.format(release=__rel
 
 
 from . import QtGui
-from . import QtCore
