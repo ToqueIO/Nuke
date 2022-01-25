@@ -7,9 +7,7 @@ except ImportError:
 from .customWidgets.multiCompleteLine import MultiCompleteLine
 from .customWidgets.filteredComboBox import FilteredComboBox
 from .customWidgets.baseWidget import BaseWidget
-from .customWidgets.labeledWidget import LabeledWidget
 from .customWidgets.customListWidget import CustomListWidget
-from .customWidgets.customMessage import CustomMessage
 from .customWidgets.codeEditor import CodeEditor
 from .customWidgets.mouseClickEmitter import MouseEventFilter
 
