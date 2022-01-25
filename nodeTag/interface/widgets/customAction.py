@@ -1,6 +1,8 @@
 import os.path
 
 import nuke
+
+import common.utilities
 from CommonQt import QtGui, QtCore
 
 
@@ -23,28 +25,12 @@ class CustomAction(QtGui.BaseWidget):
         self.splitter = QtGui.QSplitter()
 
         self.commandOutput = QtGui.QTextEdit()
-        self.commandEntry = QtGui.CodeEditor(saveDir=self.userDir, saveCode=True, saveLog=True)
+        self.commandEntry = QtGui.CodeEditor(saveDir=common.utilities.getUserDir(),
+                                             saveCode=True,
+                                             saveLog=True)
         self.runButton = QtGui.QPushButton('Run')
         self.runSelectedButton = QtGui.QPushButton('Run Selected')
         self.cancelButton = QtGui.QPushButton('Clear')
-
-    @property
-    def userDir(self):
-        """
-        Returns:
-            str: Path to the current users .nuke folder
-        """
-        if self._userDir is None:
-            userDir = None
-            for path in nuke.pluginPath():
-                if '.nuke' in path:
-                    userDir = path
-                    break
-
-            if userDir:
-                self._userDir = os.path.join(userDir, 'customAction')
-
-        return self._userDir
 
     def initializeInterface(self):
         """
